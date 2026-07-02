@@ -1,0 +1,10 @@
+import pg from 'pg'
+import './dotenv.js'
+
+const { Pool } = pg
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+})
+
+export default pool
