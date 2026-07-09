@@ -24,16 +24,32 @@ const EditTrip = ({data}) => {
     }
     
 
-    const updatePost = (event) => {
+    const updateTrip = async (event) => {
         event.preventDefault();
 
+        const options = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(post)
+        }
+
+        await fetch(`/api/trips/${id}`, options)
+        window.location.href = '/'
 
 
     }
 
 
-    const deletePost = (event) => {
+    const deleteTrip = async (event) => {
         event.preventDefault();
+
+        const options = {
+            method: 'DELETE'
+        }
+
+        await fetch(`/api/trips/${id}`, options)
 
         
     }
@@ -71,8 +87,8 @@ const EditTrip = ({data}) => {
                 <br/>
 
 
-                <input type="submit" value="Submit" onClick={updatePost}/>
-                <button className="deleteButton" onClick={deletePost}>Delete</button>
+                <input type="submit" value="Submit" onClick={updateTrip}/>
+                <button className="deleteButton" onClick={deleteTrip}>Delete</button>
             </form>
         </div>
     )

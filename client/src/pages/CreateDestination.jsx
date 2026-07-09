@@ -5,6 +5,7 @@ import './CreateDestination.css'
 const CreateDestination = () => {
 
     const [destination, setDestination] = useState({destination: "", description: "", city: "", country: "", img_url: "", flag_img_url: "" })
+    const [destinations, setDestinations] = useState([])
     const {trip_id} = useParams();
 
     const handleChange = (event) => {
@@ -23,17 +24,35 @@ const CreateDestination = () => {
 
 
         const addDestination = async () => {
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(destination)
+            }
 
- 
-        
+            const response = await fetch('/api/destinations', options)
+            const data = await response.json()
+            setDestinations(data)
+            return data
         }
 
-        const createTripDestination = async (destination_id) => {
+        const createTripDestination = async (response) => {
+            const options = {
+                method: 'POST',
+                body: JSON.stringify({
+                    trip_id,
+                    destination_id: response.id
+                })
+            }
 
-
-        
+            const responseData = await fetch(`/api/trip-destinations/${trip_id}`, options)
+            const data = await responseData.json()
+            return data
         }
 
+        addDestination().then(res => createTripDestination(res)).then(res => window.location = '/')
 
     }
 
